@@ -2,6 +2,28 @@ import {authTables} from "@convex-dev/auth/server"
 import {defineSchema, defineTable} from "convex/server"
 import {v} from "convex/values"
 
+export const accountFields = {
+	userId: v.id("users"),
+	id: v.string(),
+	currency: v.string(),
+	name: v.string(),
+	bankName: v.optional(v.string()),
+}
+
+export const transactionFields = {
+	userId: v.id("users"),
+	accountId: v.id("accounts"),
+	transactionId: v.string(), // reference from statement
+	amount: v.number(), // credit=+ debit=-
+	balance: v.optional(v.number()),
+	date: v.string(), // ISO YYYY-MM-DD
+	category: v.string(), // must match user’s categories
+	merchant: v.string(), // normalized merchant/person
+	tags: v.array(v.string()),
+	confidence: v.number(), // 0–100
+	original: v.string(), // raw description
+}
+
 export default defineSchema({
 	...authTables,
 
@@ -9,36 +31,18 @@ export default defineSchema({
 		value: v.number(),
 	}),
 
-	accounts: defineTable({
-		userId: v.id("users"),
-		id: v.string(),
-		name: v.string(),
-		currency: v.string(),
-		bankName: v.string(),
-	}).index("by_user", ["userId"]),
+	accounts: defineTable(accountFields).index("by_user", ["userId"]),
 
-	transactions: defineTable({
-		userId: v.id("users"),
-		accountId: v.id("accounts"),
-		transactionId: v.string(), // reference from statement
-		amount: v.number(), // credit=+ debit=-
-		balance: v.optional(v.number()),
-		date: v.string(), // ISO YYYY-MM-DD
-		category: v.string(), // must match user’s categories
-		merchant: v.string(), // normalized merchant/person
-		tags: v.array(v.string()),
-		confidence: v.number(), // 0–100
-		original: v.string(), // raw description
-	})
+	transactions: defineTable(transactionFields)
 		.index("by_user", ["userId"])
 		.index("by_account", ["accountId"])
 		.index("by_date", ["date"]),
 
 	categories: defineTable({
-		userId: v.optional(v.id("users")), // null = default
+		default: v.optional(v.boolean()),
 		name: v.string(),
 		prompt: v.string(), // description for AI classification
-	}).index("by_user", ["userId"]),
+	}),
 
 	userCategories: defineTable({
 		userId: v.id("users"),
@@ -47,11 +51,10 @@ export default defineSchema({
 	}).index("by_user", ["userId"]),
 
 	tags: defineTable({
-		userId: v.optional(v.id("users")), // null = default
+		default: v.optional(v.boolean()),
 		name: v.string(),
 		prompt: v.string(), // description for AI classification
-		enabled: v.boolean(),
-	}).index("by_user", ["userId"]),
+	}),
 
 	userTags: defineTable({
 		userId: v.id("users"),

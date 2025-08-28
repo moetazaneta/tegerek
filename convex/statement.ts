@@ -1,5 +1,6 @@
 import {v} from "convex/values"
 import {getTransactions} from "../ai/transactions"
+import {api} from "./_generated/api"
 import {protectedAction} from "./utils/protected"
 
 export const upload = protectedAction({
@@ -9,61 +10,51 @@ export const upload = protectedAction({
 	handler: async (ctx, args) => {
 		console.log("upload", args.file)
 
-		const categoriesMock = [
-			{
-				name: "groceries",
-				prompt: "Supermarkets, grocery stores, food shops",
-			},
-			{
-				name: "restaurants",
-				prompt: "Cafes, restaurants, bars, fast food",
-			},
-			{
-				name: "entertainment",
-				prompt: "Streaming services, music, cinema, subscriptions",
-			},
-			{
-				name: "transport",
-				prompt: "Taxi, metro, bus, fuel",
-			},
-			{
-				name: "shopping",
-				prompt: "Retail, clothing, electronics, Amazon, Wildberries, Ozon",
-			},
+		const categories = await ctx.runQuery(api.categories.getMyCategories)
+		const tags = await ctx.runQuery(api.tags.getMyTags)
 
-			{
-				name: "transfer",
-				prompt: "Bank transfers, P2P payments",
-			},
+		console.log("categories", categories)
+		console.log("tags", tags)
 
-			{
-				name: "income",
-				prompt: "Salary, deposits, account top-ups",
-			},
-
-			{
-				name: "other",
-				prompt: "Anything that does not fit other categories",
-			},
-		]
-
-		const tagsMock = [
-			{
-				name: "subscription",
-				prompt: "Recurring payments for digital services",
-			},
-			{
-				name: "music",
-				prompt: "Music-related services like Spotify, Apple Music",
-			},
-		]
-
-		const transactions = await getTransactions({
+		const {accounts} = await getTransactions({
 			statment: args.file,
-			categories: categoriesMock,
-			tags: tagsMock,
+			categories,
+			tags,
 		})
 
-		return transactions
+		// throw new Error("test")
+
+		const accountPromises = (accounts ?? []).map(async a => {
+			const accountId = await ctx.runMutation(api.accounts.create, {
+				userId: ctx.user._id,
+				id: a.id,
+				name: a.name ?? a.id,
+				currency: a.currency,
+				bankName: a.bankName ?? undefined,
+			})
+
+			const transactionPromises = (a.transactions ?? []).map(async t => {
+				await ctx.runMutation(api.transactions.create, {
+					userId: ctx.user._id,
+					accountId,
+					date: t.date,
+					amount: t.amount,
+					transactionId: t.id,
+					category: t.category,
+					merchant: t.merchant,
+					tags: t.tags ?? [],
+					confidence: t.confidence,
+					original: t.original,
+				})
+			})
+			return Promise.all(transactionPromises)
+		})
+
+		const result = await Promise.all(accountPromises)
+
+		return {
+			accounts: result.length,
+			transactions: result.flat().length,
+		}
 	},
 })

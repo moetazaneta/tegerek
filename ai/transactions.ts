@@ -13,7 +13,7 @@ const transactionSchema = z.object({
 	balance: z.number().nullish().default(null),
 	date: z.string(),
 	category: z.string(),
-	label: z.string(),
+	merchant: z.string(),
 	tags: z.array(z.string()).nullish().default([]),
 	confidence: z.number().min(0).max(100),
 	original: z.string(),
@@ -93,7 +93,7 @@ Rules:
             "balance": number or null, balance after transaction if available
             "date": string, ISO format YYYY-MM-DD
             "category": string, must be one of the categories defined above
-            "label": string, normalized merchant/person name
+            "merchant": string, normalized merchant/person name
             "tags": array of strings, must be chosen from the tags defined above
             "confidence": integer 0–100, minimum confidence across all fields
             "original": string, original description text
