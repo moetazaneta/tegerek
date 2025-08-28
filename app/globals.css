@@ -41,6 +41,9 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
+
+	--font-sans: var(--font-martian-grotesk);
+	--font-mono: var(--font-geist-mono);
 }
 
 :root {
@@ -119,4 +122,17 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+
+@utility squircle-* {
+	--squircle-multiplier: 1.75;
+	border-radius: calc(var(--squircle-multiplier) * --value(--radius-*));
+	border-radius: calc(var(--squircle-multiplier) * --value([*]));
+	corner-shape: squircle;
+}
+
+@utility squircle-full {
+	border-radius: calc(infinity * 1px);
+	corner-shape: superellipse(1.5);
 }
