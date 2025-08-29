@@ -36,7 +36,7 @@ export default defineSchema({
 	transactions: defineTable(transactionFields)
 		.index("by_user", ["userId"])
 		.index("by_account", ["accountId"])
-		.index("by_date", ["date"]),
+		.index("by_dateUser", ["userId", "date"]),
 
 	categories: defineTable({
 		default: v.optional(v.boolean()),
