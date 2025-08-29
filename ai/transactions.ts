@@ -111,17 +111,50 @@ Parsing rules:
 - Amount = Credit - Debit (credit positive, debit negative).
 - Balance = <Balance> if available, otherwise null.
 - Category: classify into one of the categories defined above. If unsure, use "other".
-- Label: normalize merchant names (e.g. "SPAR1 SHOP", "MINISPAR" → "SPAR").
+- Merchant: normalize merchant names (e.g. "SPAR1 SHOP", "MINISPAR" → "SPAR"). Prefer short names. If it's a person name, only use first and last name.
 - Tags: assign based on the tag definitions above. If none apply, leave empty.
-- Confidence: assign per field, then take the minimum as the transaction confidence.
+- Confidence: Confidence in data quality you provide, assign per field, then take the minimum as the transaction confidence.
 - Original: copy the full <Description> text.
 
-Do not invent data that is not in the statement.`
+Output ONLY valid JSON. Do not add trailing commas. Do not add comments. Do not add explanations. Do not format the JSON.
+
+Do not invent data that is not in the statement.
+
+Example:
+
+\`\`\`json
+{
+  "accounts": [
+    {
+      "bankName": "MBANK",
+      "id": "1280096054862572",
+      "name": "USD card acc/Sotnichenko Artem Maksimovich(VC)",
+      "currency": "USD",
+      "transactions": [
+        {
+          "id": "009pz10251501002",
+          "amount": -4.99,
+          "balance": 576.94,
+          "date": "2025-05-30",
+          "category": "entertainment",
+          "merchant": "Spotify",
+          "tags": ["subscription", "music"],
+          "confidence": 90,
+          "original": "POS payment at SPOTIFY (35467214) BY_CARD#444679***2722/#1280096054862572/TRN_TIME:27.05.25 00:00:00"
+        }
+      ]
+    }
+  ]
+}
+\`\`\`
+`
 
 	const userPrompt = `
 Parse the following bank statement XML into the required JSON format:
 
+\`\`\`xml
 ${statment}
+\`\`\`
 `
 	console.log("getTransactions.systemPrompt", systemPrompt)
 	console.log("getTransactions.userPrompt", userPrompt)
