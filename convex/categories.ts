@@ -1,7 +1,7 @@
 import {getAll} from "convex-helpers/server/relationships"
 import {protectedQuery} from "./utils/protected"
 
-export const getMyCategories = protectedQuery({
+export const getMine = protectedQuery({
 	handler: async ctx => {
 		const categories = await ctx.db
 			.query("userCategories")

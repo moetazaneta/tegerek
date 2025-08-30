@@ -1,7 +1,7 @@
 import {getAll} from "convex-helpers/server/relationships"
 import {protectedQuery} from "./utils/protected"
 
-export const getMyTags = protectedQuery({
+export const getMine = protectedQuery({
 	handler: async ctx => {
 		const tags = await ctx.db
 			.query("userTags")

@@ -10,8 +10,8 @@ export const upload = protectedAction({
 	handler: async (ctx, args) => {
 		console.log("upload", args.file)
 
-		const categories = await ctx.runQuery(api.categories.getMyCategories)
-		const tags = await ctx.runQuery(api.tags.getMyTags)
+		const categories = await ctx.runQuery(api.categories.getMine)
+		const tags = await ctx.runQuery(api.tags.getMine)
 
 		console.log("categories", categories)
 		console.log("tags", tags)
@@ -40,7 +40,7 @@ export const upload = protectedAction({
 					date: t.date,
 					amount: t.amount,
 					transactionId: t.id,
-					category: t.category,
+					category: categories.find(c => c.name === t.category)!._id,
 					merchant: t.merchant,
 					tags: t.tags ?? [],
 					confidence: t.confidence,

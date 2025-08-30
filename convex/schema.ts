@@ -17,7 +17,7 @@ export const transactionFields = {
 	amount: v.number(), // credit=+ debit=-
 	balance: v.optional(v.number()),
 	date: v.string(), // ISO YYYY-MM-DD
-	category: v.string(), // must match user’s categories
+	category: v.id("categories"), // must match user’s categories
 	merchant: v.string(), // normalized merchant/person
 	tags: v.array(v.string()),
 	confidence: v.number(), // 0–100

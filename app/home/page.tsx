@@ -1,61 +1,146 @@
 "use client"
 
+import {convexQuery} from "@convex-dev/react-query"
+import {useQuery} from "@tanstack/react-query"
 import type {ApexOptions} from "apexcharts"
-import {useQuery} from "convex/react"
+import {AnimatePresence, motion} from "motion/react"
+import {useState} from "react"
 import ApexChart from "react-apexcharts"
+import {Combobox} from "@/components/ui/combobox"
 import {api} from "@/convex/_generated/api"
+import type {Id} from "@/convex/_generated/dataModel"
+import type {TransactionWithCurrency} from "@/convex/transactions"
 import {formatCurrency} from "@/lib/currency"
+import {cn} from "@/lib/utils"
 
 export default function Home() {
+	const [filters, setFilters] = useState<Filters>({})
+	const {data: transactions, isPending} = useQuery({
+		...convexQuery(api.transactions.getMine, filters),
+		placeholderData: prev => prev,
+	})
+
 	return (
-		<div className="flex flex-row gap-4">
-			<TransactionList />
-			<TreeChart />
+		<div className="flex flex-row gap-4 min-h-0 h-full w-[1032px] justify-center">
+			<Filters value={filters} onChange={setFilters} />
+			<div className={cn("flex flex-row gap-4", isPending && "opacity-50")}>
+				<TransactionList transactions={transactions ?? []} />
+				<TreeChart transactions={transactions ?? []} />
+			</div>
 		</div>
 	)
 }
 
-function TransactionList() {
-	const transactions = useQuery(api.transactions.getMine)
+function TransactionList({
+	transactions,
+}: {
+	transactions: TransactionWithCurrency[]
+}) {
 	const groups = Object.groupBy(transactions ?? [], t => t.date)
 
 	return (
-		<div className="flex flex-col w-full max-w-[300px]">
-			{Object.entries(groups).map(([date, transactions]) => (
-				<>
-					<div
-						key={date}
-						className="text-muted-foreground pl-2 pb-4 pt-6 text-sm font-semibold sticky top-0 bg-gradient-to-b from-white to-transparent from-60%"
-					>
-						{new Date(date).toLocaleDateString()}
-					</div>
-
-					{transactions?.map(t => (
-						<div
-							className="flex flex-row gap-1 justify-between items-center px-2 hover:bg-stone-100 squircle-xl"
-							key={t._id}
+		<div className="flex flex-col max-w-[300px] w-[300px] shrink-0">
+			<AnimatePresence mode="popLayout">
+				{Object.entries(groups).map(([date, transactions]) => (
+					<motion.div key={`wrap-${date}`} layout>
+						<motion.div
+							layout
+							key={date}
+							className={cn(
+								"inline-block text-muted-foreground pl-2 pb-4 pt-6 text-sm font-semibold ",
+								// "sticky top-0 bg-gradient-to-b from-white to-transparent from-60%",
+							)}
+							initial={{opacity: 0, scale: 0.75}}
+							animate={{opacity: 1, scale: 1}}
+							exit={{opacity: 0, scale: 0.75}}
+							transition={{
+								duration: 0.5,
+								type: "spring",
+								bounce: 0.1,
+							}}
 						>
-							<div className="flex flex-col min-w-0 gap-0 py-2">
-								<div className="font-bold truncate">{t.merchant}</div>
-								<div className="text-muted-foreground">
-									{t.category}
-									{t.tags && t.tags.length > 0 && `, ${t.tags.join(", ")}`}
+							{new Date(date).toLocaleDateString()}
+						</motion.div>
+						{transactions?.map(t => (
+							<motion.div
+								className="flex flex-row gap-1 justify-between items-center px-2 hover:bg-stone-100 squircle-xl"
+								key={t._id}
+								layout
+								initial={{opacity: 0, scale: 0.9}}
+								animate={{opacity: 1, scale: 1}}
+								exit={{opacity: 0, scale: 0.9}}
+								transition={{
+									duration: 0.5,
+									type: "spring",
+									bounce: 0.1,
+								}}
+							>
+								<div className="flex flex-col min-w-0 gap-0 py-2">
+									<div className="font-bold truncate">{t.merchant}</div>
+									<div className="text-muted-foreground">
+										{t.category}
+										{t.tags && t.tags.length > 0 && `, ${t.tags.join(", ")}`}
+									</div>
 								</div>
-							</div>
-							<div className="text-right whitespace-nowrap tabular-nums">
-								{formatCurrency(t.amount, t.currency)}
-							</div>
-						</div>
-					))}
-				</>
-			))}
+								<div className="text-right whitespace-nowrap tabular-nums">
+									{formatCurrency(t.amount, t.currency)}
+								</div>
+							</motion.div>
+						))}
+					</motion.div>
+				))}
+			</AnimatePresence>
 		</div>
 	)
 }
 
-function TreeChart() {
-	const transactions = useQuery(api.transactions.getMine)
+type Filters = {
+	categories?: Id<"categories">[]
+}
 
+function Filters({
+	value,
+	onChange,
+}: {
+	value: Filters
+	onChange: (f: Filters) => void
+}) {
+	const {categories} = value
+	return (
+		<div className="flex flex-col gap-2 w-[250px]">
+			<CategoryCombobox
+				value={categories}
+				onChange={categories => onChange({...value, categories})}
+			/>
+		</div>
+	)
+}
+
+function CategoryCombobox({
+	value,
+	onChange,
+}: {
+	value?: Id<"categories">[]
+	onChange: (value: Id<"categories">[]) => void
+}) {
+	const {data: categories} = useQuery(convexQuery(api.categories.getMine, {}))
+	const options = (categories ?? []).map(c => ({
+		label: c.name,
+		value: c._id,
+	}))
+
+	return (
+		<Combobox
+			placeholder="Select a category"
+			className="w-[250px]"
+			options={options}
+			value={value}
+			onChange={onChange}
+		/>
+	)
+}
+
+function TreeChart({transactions}: {transactions: TransactionWithCurrency[]}) {
 	const creditTransactions = (transactions ?? []).filter(t => t.amount < 0)
 
 	const transactionsByCategory = Object.groupBy(
@@ -105,6 +190,7 @@ function TreeChart() {
 			type="treemap"
 			height={500}
 			width={500}
+			className="w-[500px]"
 		/>
 	)
 }
