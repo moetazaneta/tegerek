@@ -22,13 +22,17 @@ export function Combobox<TValue extends string>({
 	value,
 	onChange: setValue,
 	options,
-	placeholder = "Search option...",
+	label = "Selected options",
+	selectPlaceholder = "Select",
+	searchPlaceholder = "Search",
 	className,
 }: {
 	value?: TValue[] | null
 	onChange: (value: TValue[]) => void
 	options: ComboboxOption[]
-	placeholder?: string
+	label?: string
+	selectPlaceholder?: string
+	searchPlaceholder?: string
 	className?: string
 }) {
 	const [open, setOpen] = React.useState(false)
@@ -51,20 +55,31 @@ export function Combobox<TValue extends string>({
 					role="combobox"
 					aria-expanded={open}
 					className={cn(
-						"w-[200px] justify-between hover:bg-transparent min-h-11.5",
+						"w-[200px] flex flex-col items-start justify-between hover:bg-transparent ",
 						className,
 					)}
 				>
-					{selectedOptions.length > 0 ? (
-						<SelectedOptions options={selectedOptions} />
-					) : (
-						<span className="ml-1.5 text-muted-foreground">{placeholder}</span>
+					<div
+						className={cn(
+							"ml-1.5 text-muted-foreground",
+							selectedOptions.length > 0 && "text-xs",
+						)}
+					>
+						{selectedOptions.length === 0 ? selectPlaceholder : label}
+					</div>
+					{selectedOptions.length > 0 && (
+						<SelectedOptions
+							options={selectedOptions}
+							onRemove={deletedValue =>
+								setValue(value?.filter(v => v !== deletedValue) ?? [])
+							}
+						/>
 					)}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="max-h-[var(--radix-popover-content-available-height)] w-full min-w-[var(--radix-popover-trigger-width)] p-0">
 				<Command>
-					<CommandInput placeholder={placeholder} />
+					<CommandInput placeholder={searchPlaceholder} />
 					<CommandList>
 						<CommandEmpty>No option found.</CommandEmpty>
 						<CommandGroup>
@@ -108,9 +123,11 @@ function useSelectedOptions<TValue extends string>(
 
 function SelectedOptions({
 	options,
+	onRemove,
 	className,
 }: {
 	options: ComboboxOption[]
+	onRemove?: (value: string) => void
 	className?: string
 }) {
 	return (
@@ -136,6 +153,10 @@ function SelectedOptions({
 							<XIcon
 								strokeWidth={3}
 								className="absolute size-5 p-1 right-0 bg-gradient-to-l from-secondary to-transparent from-70% opacity-0 group-hover:opacity-100 transition-opacity"
+								onClick={e => {
+									e.stopPropagation()
+									onRemove?.(option.value)
+								}}
 							/>
 						</motion.div>
 					</Badge>
