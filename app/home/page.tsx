@@ -46,13 +46,14 @@ function TransactionList({
 	return (
 		<div className="flex flex-col max-w-[300px] w-[300px] shrink-0">
 			<AnimatePresence mode="popLayout">
-				{Object.entries(groups).map(([date, transactions]) => (
-					<motion.div key={`wrap-${date}`} layout>
+				{Object.entries(groups).map(([date, transactions], index) => (
+					<motion.div key={`wrap-${date}`}>
 						<motion.div
 							layout
 							key={date}
+							data-first={index === 0}
 							className={cn(
-								"inline-block text-muted-foreground pl-2 pb-4 not-first:pt-6 text-sm font-semibold ",
+								"inline-block text-muted-foreground pl-2 pb-4 data-[first=false]:pt-6 text-sm font-semibold ",
 							)}
 							initial={{opacity: 0, scale: 0.75}}
 							animate={{opacity: 1, scale: 1}}
@@ -135,7 +136,9 @@ function CategoryCombobox({
 
 	return (
 		<Combobox
-			placeholder="Select a category"
+			selectPlaceholder="Select categories"
+			label="Categories"
+			searchPlaceholder="Search categories"
 			className="w-[250px]"
 			options={options}
 			value={value}
