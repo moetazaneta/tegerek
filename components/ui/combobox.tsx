@@ -121,7 +121,7 @@ function useSelectedOptions<TValue extends string>(
 	return options.filter(option => value.includes(option.value as TValue))
 }
 
-function SelectedOptions({
+export function SelectedOptions({
 	options,
 	onRemove,
 	className,
