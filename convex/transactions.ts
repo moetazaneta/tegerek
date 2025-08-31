@@ -25,7 +25,7 @@ export const getMine = protectedQuery({
 					: true,
 			)
 			.order("desc")
-			.collect()
+			.take(20)
 		const accountsPromise = ctx.db
 			.query("accounts")
 			.withIndex("by_user", q => q.eq("userId", ctx.user._id))
