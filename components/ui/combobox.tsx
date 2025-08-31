@@ -41,7 +41,6 @@ export function Combobox<TValue extends string>({
 		<Popover
 			open={open}
 			onOpenChange={e => {
-				console.log("open", e)
 				setOpen(e)
 			}}
 		>

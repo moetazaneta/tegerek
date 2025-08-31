@@ -15,7 +15,7 @@ import {cn} from "@/lib/utils"
 
 export default function Home() {
 	const [filters, setFilters] = useState<Filters>({})
-	const {data: transactions, isPending} = useQuery({
+	const {data: transactions, isFetching} = useQuery({
 		...convexQuery(api.transactions.getMine, filters),
 		placeholderData: prev => prev,
 	})
@@ -23,7 +23,12 @@ export default function Home() {
 	return (
 		<div className="flex flex-row gap-4 min-h-0 h-full w-[1032px] justify-center">
 			<Filters value={filters} onChange={setFilters} />
-			<div className={cn("flex flex-row gap-4", isPending && "opacity-50")}>
+			<div
+				className={cn(
+					"flex flex-row gap-4 transition-opacity",
+					isFetching && "opacity-50 ",
+				)}
+			>
 				<TransactionList transactions={transactions ?? []} />
 				<TreeChart transactions={transactions ?? []} />
 			</div>
@@ -47,8 +52,7 @@ function TransactionList({
 							layout
 							key={date}
 							className={cn(
-								"inline-block text-muted-foreground pl-2 pb-4 pt-6 text-sm font-semibold ",
-								// "sticky top-0 bg-gradient-to-b from-white to-transparent from-60%",
+								"inline-block text-muted-foreground pl-2 pb-4 not-first:pt-6 text-sm font-semibold ",
 							)}
 							initial={{opacity: 0, scale: 0.75}}
 							animate={{opacity: 1, scale: 1}}
@@ -184,13 +188,15 @@ function TreeChart({transactions}: {transactions: TransactionWithCurrency[]}) {
 	}
 
 	return (
-		<ApexChart
-			options={options}
-			series={series}
-			type="treemap"
-			height={500}
-			width={500}
-			className="w-[500px]"
-		/>
+		<div className="relative">
+			<ApexChart
+				options={options}
+				series={series}
+				type="treemap"
+				height={520}
+				width={500}
+				className="-mt-[20px]"
+			/>
+		</div>
 	)
 }
