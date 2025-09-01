@@ -44,6 +44,121 @@
 
 	--font-sans: var(--font-martian-grotesk);
 	--font-mono: var(--font-geist-mono);
+
+	--animate-shiny-text: shiny-text 1s infinite;
+
+  @keyframes shiny-text {
+		0% { --animation-percent: 0; }
+		1% { --animation-percent: 1; }
+		2% { --animation-percent: 2; }
+		3% { --animation-percent: 3; }
+		4% { --animation-percent: 4; }
+		5% { --animation-percent: 5; }
+		6% { --animation-percent: 6; }
+		7% { --animation-percent: 7; }
+		8% { --animation-percent: 8; }
+		9% { --animation-percent: 9; }
+		10% { --animation-percent: 10; }
+		11% { --animation-percent: 11; }
+		12% { --animation-percent: 12; }
+		13% { --animation-percent: 13; }
+		14% { --animation-percent: 14; }
+		15% { --animation-percent: 15; }
+		16% { --animation-percent: 16; }
+		17% { --animation-percent: 17; }
+		18% { --animation-percent: 18; }
+		19% { --animation-percent: 19; }
+		20% { --animation-percent: 20; }
+		21% { --animation-percent: 21; }
+		22% { --animation-percent: 22; }
+		23% { --animation-percent: 23; }
+		24% { --animation-percent: 24; }
+		25% { --animation-percent: 25; }
+		26% { --animation-percent: 26; }
+		27% { --animation-percent: 27; }
+		28% { --animation-percent: 28; }
+		29% { --animation-percent: 29; }
+		30% { --animation-percent: 30; }
+		31% { --animation-percent: 31; }
+		32% { --animation-percent: 32; }
+		33% { --animation-percent: 33; }
+		34% { --animation-percent: 34; }
+		35% { --animation-percent: 35; }
+		36% { --animation-percent: 36; }
+		37% { --animation-percent: 37; }
+		38% { --animation-percent: 38; }
+		39% { --animation-percent: 39; }
+		40% { --animation-percent: 40; }
+		41% { --animation-percent: 41; }
+		42% { --animation-percent: 42; }
+		43% { --animation-percent: 43; }
+		44% { --animation-percent: 44; }
+		45% { --animation-percent: 45; }
+		46% { --animation-percent: 46; }
+		47% { --animation-percent: 47; }
+		48% { --animation-percent: 48; }
+		49% { --animation-percent: 49; }
+		50% { --animation-percent: 50; }
+		51% { --animation-percent: 51; }
+		52% { --animation-percent: 52; }
+		53% { --animation-percent: 53; }
+		54% { --animation-percent: 54; }
+		55% { --animation-percent: 55; }
+		56% { --animation-percent: 56; }
+		57% { --animation-percent: 57; }
+		58% { --animation-percent: 58; }
+		59% { --animation-percent: 59; }
+		60% { --animation-percent: 60; }
+		61% { --animation-percent: 61; }
+		62% { --animation-percent: 62; }
+		63% { --animation-percent: 63; }
+		64% { --animation-percent: 64; }
+		65% { --animation-percent: 65; }
+		66% { --animation-percent: 66; }
+		67% { --animation-percent: 67; }
+		68% { --animation-percent: 68; }
+		69% { --animation-percent: 69; }
+		70% { --animation-percent: 70; }
+		71% { --animation-percent: 71; }
+		72% { --animation-percent: 72; }
+		73% { --animation-percent: 73; }
+		74% { --animation-percent: 74; }
+		75% { --animation-percent: 75; }
+		76% { --animation-percent: 76; }
+		77% { --animation-percent: 77; }
+		78% { --animation-percent: 78; }
+		79% { --animation-percent: 79; }
+		80% { --animation-percent: 80; }
+		81% { --animation-percent: 81; }
+		82% { --animation-percent: 82; }
+		83% { --animation-percent: 83; }
+		84% { --animation-percent: 84; }
+		85% { --animation-percent: 85; }
+		86% { --animation-percent: 86; }
+		87% { --animation-percent: 87; }
+		88% { --animation-percent: 88; }
+		89% { --animation-percent: 89; }
+		90% { --animation-percent: 90; }
+		91% { --animation-percent: 91; }
+		92% { --animation-percent: 92; }
+		93% { --animation-percent: 93; }
+		94% { --animation-percent: 94; }
+		95% { --animation-percent: 95; }
+		96% { --animation-percent: 96; }
+		97% { --animation-percent: 97; }
+		98% { --animation-percent: 98; }
+		99% { --animation-percent: 99; }
+		100% { --animation-percent: 100; }
+	}
+}
+
+.animate-shiny-text {
+	--shimmer-width: 50%;
+	--step-size: calc((100% + var(--shimmer-width)) / 100);
+
+	--tw-gradient-to-position: calc(var(--animation-percent) * var(--step-size));
+	--tw-gradient-via-position: calc(var(--animation-percent) * var(--step-size) - var(--shimmer-width) * 0.5);
+	--tw-gradient-from-position: calc(var(--animation-percent) * var(--step-size) - var(--shimmer-width));
 }
 
 :root {
@@ -127,7 +242,6 @@
 	}
 }
 
-
 @utility squircle-* {
 	--squircle-multiplier: 1.75;
 	border-radius: calc(var(--squircle-multiplier) * --value(--radius-*));
@@ -138,4 +252,21 @@
 @utility squircle-full {
 	border-radius: calc(infinity * 1px);
 	corner-shape: superellipse(1.5);
+}
+
+@utility animate-count-* {
+	animation-iteration-count: --value(integer);
+}
+
+@utility animate-duration-* {
+	animation-duration: --value(integer)ms;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+	}
+  body {
+    @apply bg-background text-foreground;
+	}
 }
