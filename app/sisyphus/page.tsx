@@ -34,19 +34,20 @@ import {
 } from "@/components/ui/command"
 import {api} from "@/convex/_generated/api"
 import type {Id} from "@/convex/_generated/dataModel"
+import { BaseUiSelect } from "@/app/sisyphus/base-ui-select"
 
 export default function Home() {
 	const [categories, setCategories] = useState<Id<"categories">[]>([])
 
 	return (
 		<div className="h-full w-[250px] flex flex-col gap-4 justify-between p-0 scroll-auto">
+			<FancyCombobox />
 			{/* <AnimatedList /> */}
 			<CategoryFloatingSelect value={categories} onChange={setCategories} />
-			{/* <BaseUiSelect />
+			<BaseUiSelect />
 			<CategoryCombobox value={categories} onChange={setCategories} />
-			<FancyCombobox />
 			<CategoryCombobox value={categories} onChange={setCategories} />
-			<BaseUiSelect /> */}
+			<BaseUiSelect />
 			<CategoryFloatingSelect value={categories} onChange={setCategories} />
 		</div>
 	)
