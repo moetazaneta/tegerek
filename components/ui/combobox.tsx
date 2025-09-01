@@ -137,37 +137,24 @@ export function SelectedOptions({
 	className?: string
 }) {
 	return (
-		<motion.div className={cn("flex flex-wrap gap-1", className)}>
-			<AnimatePresence mode="popLayout">
-				{options.map(option => (
-					<Badge
-						key={option.value}
-						variant="secondary"
-						className="relative group"
-						asChild
-					>
-						<motion.div
-							layout
-							initial={{opacity: 0}}
-							animate={{opacity: 1}}
-							exit={{opacity: 0}}
-							transition={{
-								duration: 0.2,
-							}}
-						>
-							{option.label}
-							<XIcon
-								strokeWidth={3}
-								className="absolute size-5 p-1 right-0 bg-gradient-to-l from-secondary to-transparent from-70% opacity-0 group-hover:opacity-100 transition-opacity"
-								onClick={e => {
-									e.stopPropagation()
-									onRemove?.(option.value)
-								}}
-							/>
-						</motion.div>
-					</Badge>
-				))}
-			</AnimatePresence>
-		</motion.div>
+		<div className={cn("flex flex-wrap gap-1", className)}>
+			{options.map(option => (
+				<Badge
+					key={option.value}
+					variant="secondary"
+					className="relative group"
+				>
+					{option.label}
+					<XIcon
+						strokeWidth={3}
+						className="absolute size-5 p-1 right-0 bg-gradient-to-l from-secondary to-transparent from-70% opacity-0 group-hover:opacity-100 transition-opacity"
+						onClick={e => {
+							e.stopPropagation()
+							onRemove?.(option.value)
+						}}
+					/>
+				</Badge>
+			))}
+		</div>
 	)
 }

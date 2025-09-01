@@ -21,7 +21,7 @@ import {Dropzone} from "@/components/ui/shadcn-io/dropzone"
 import {api} from "@/convex/_generated/api"
 import {cn} from "@/lib/utils"
 
-export default function RootLayout({
+export default function HomeLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
@@ -29,7 +29,6 @@ export default function RootLayout({
 	return (
 		<div className="flex flex-col items-center h-full w-full gap-8">
 			<header className="flex flex-row items-center justify-end w-full">
-				{/* <HeaderItem Icon={UploadIcon}>Upload</HeaderItem> */}
 				<ImportStatementButton />
 				<SignOutButton />
 			</header>
