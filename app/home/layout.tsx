@@ -116,8 +116,8 @@ function ImportStatementButton() {
 				damping: 24,
 			}}
 		>
-			<MorphingDialogTrigger>
-				<Button variant="og">
+			<Button variant="og" asChild>
+				<MorphingDialogTrigger>
 					<MorphingDialogTitle headless>
 						{status === "idle" && "Import"}
 						{status === "processing" && (
@@ -134,8 +134,8 @@ function ImportStatementButton() {
 							</div>
 						)}
 					</MorphingDialogTitle>
-				</Button>
-			</MorphingDialogTrigger>
+				</MorphingDialogTrigger>
+			</Button>
 			<MorphingDialogContainer>
 				<MorphingDialogContent>
 					<MorphingDialogTitle>

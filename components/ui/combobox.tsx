@@ -26,6 +26,8 @@ export function Combobox<TValue extends string>({
 	selectPlaceholder = "Select",
 	searchPlaceholder = "Search",
 	className,
+	loading,
+	loadingPlaceholder = "Loading...",
 }: {
 	value?: TValue[] | null
 	onChange: (value: TValue[]) => void
@@ -34,12 +36,11 @@ export function Combobox<TValue extends string>({
 	selectPlaceholder?: string
 	searchPlaceholder?: string
 	className?: string
+	loading?: boolean
+	loadingPlaceholder?: string
 }) {
 	const [open, setOpen] = React.useState(false)
-
 	const selectedOptions = useSelectedOptions(options, value ?? [])
-
-	const uniqueId = React.useId()
 
 	return (
 		<Popover
@@ -56,6 +57,7 @@ export function Combobox<TValue extends string>({
 					aria-expanded={open}
 					className={cn(
 						"w-[200px] flex flex-col items-start justify-between hover:bg-transparent ",
+						loading && "animate-pulse",
 						className,
 					)}
 				>
@@ -65,7 +67,11 @@ export function Combobox<TValue extends string>({
 							selectedOptions.length > 0 && "text-xs",
 						)}
 					>
-						{selectedOptions.length === 0 ? selectPlaceholder : label}
+						{loading
+							? loadingPlaceholder
+							: selectedOptions.length === 0
+								? selectPlaceholder
+								: label}
 					</div>
 					{selectedOptions.length > 0 && (
 						<SelectedOptions
