@@ -8,13 +8,8 @@ export const upload = protectedAction({
 		file: v.string(),
 	},
 	handler: async (ctx, args) => {
-		console.log("upload", args.file)
-
 		const categories = await ctx.runQuery(api.categories.getMine)
 		const tags = await ctx.runQuery(api.tags.getMine)
-
-		console.log("categories", categories)
-		console.log("tags", tags)
 
 		const {accounts} = await getTransactions({
 			statment: args.file,
@@ -42,7 +37,9 @@ export const upload = protectedAction({
 					transactionId: t.id,
 					category: categories.find(c => c.name === t.category)!._id,
 					merchant: t.merchant,
-					tags: t.tags ?? [],
+					tags: tags
+						.filter(tag => t.tags?.some(t => t === tag.name))
+						.map(t => t._id),
 					confidence: t.confidence,
 					original: t.original,
 				})

@@ -22,7 +22,7 @@ export default function Home() {
 			<div
 				className={cn(
 					"flex flex-row gap-4 transition-opacity",
-					isFetching && "opacity-50 ",
+					isFetching && "opacity-50",
 				)}
 			>
 				<TransactionList transactions={transactions ?? []} />

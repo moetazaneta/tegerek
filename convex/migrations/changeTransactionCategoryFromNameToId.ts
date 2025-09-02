@@ -12,7 +12,6 @@ export const changeTransactionCategoryFromNameToId = migrations.define({
 		const allCategories = await ctx.db.query("categories").collect()
 		const category = allCategories.find(c => c.name === transaction.category)
 		const other = allCategories.find(c => c.name === "other")
-		// console.log("category", category, other)
 		return {category: category?._id ?? other?._id}
 	},
 })

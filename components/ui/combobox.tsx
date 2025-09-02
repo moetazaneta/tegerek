@@ -83,7 +83,7 @@ export function Combobox<TValue extends string>({
 					)}
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="max-h-[var(--radix-popover-content-available-height)] w-full min-w-[var(--radix-popover-trigger-width)] p-0">
+			<PopoverContent className="max-h-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] p-0">
 				<Command>
 					<CommandInput placeholder={searchPlaceholder} />
 					<CommandList>

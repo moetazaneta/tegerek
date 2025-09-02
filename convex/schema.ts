@@ -19,7 +19,7 @@ export const transactionFields = {
 	date: v.string(), // ISO YYYY-MM-DD
 	category: v.id("categories"), // must match user’s categories
 	merchant: v.string(), // normalized merchant/person
-	tags: v.array(v.string()),
+	tags: v.array(v.id("tags")),
 	confidence: v.number(), // 0–100
 	original: v.string(), // raw description
 }

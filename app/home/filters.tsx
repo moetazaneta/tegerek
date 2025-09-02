@@ -6,6 +6,7 @@ import type {Id} from "@/convex/_generated/dataModel"
 
 export type Filters = {
 	categories?: Id<"categories">[]
+	tags?: Id<"tags">[]
 }
 
 export function Filters({
@@ -15,13 +16,14 @@ export function Filters({
 	value: Filters
 	onChange: (f: Filters) => void
 }) {
-	const {categories} = value
+	const {categories, tags} = value
 	return (
-		<div className="flex flex-col gap-2 w-[250px]">
+		<div className="flex flex-col gap-4 w-[250px] shrink-0">
 			<CategoryCombobox
 				value={categories}
 				onChange={categories => onChange({...value, categories})}
 			/>
+			<TagCombobox value={tags} onChange={tags => onChange({...value, tags})} />
 		</div>
 	)
 }
@@ -43,12 +45,42 @@ function CategoryCombobox({
 
 	return (
 		<Combobox
+			className="w-full"
 			loading={isLoading}
 			loadingPlaceholder="Loading categories..."
 			selectPlaceholder="Select categories"
 			label="Categories"
 			searchPlaceholder="Search categories"
-			className="w-[250px]"
+			options={options}
+			value={value}
+			onChange={onChange}
+		/>
+	)
+}
+
+function TagCombobox({
+	value,
+	onChange,
+}: {
+	value?: Id<"tags">[]
+	onChange: (value: Id<"tags">[]) => void
+}) {
+	const {data: categories, isLoading} = useQuery(
+		convexQuery(api.tags.getMine, {}),
+	)
+	const options = (categories ?? []).map(c => ({
+		label: c.name,
+		value: c._id,
+	}))
+
+	return (
+		<Combobox
+			className="w-full"
+			loading={isLoading}
+			loadingPlaceholder="Loading tags..."
+			selectPlaceholder="Select tags"
+			label="Tags"
+			searchPlaceholder="Search tags"
 			options={options}
 			value={value}
 			onChange={onChange}
