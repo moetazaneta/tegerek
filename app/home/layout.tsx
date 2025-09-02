@@ -136,7 +136,7 @@ function ImportStatementButton() {
 				</MorphingDialogTrigger>
 			</Button>
 			<MorphingDialogContainer>
-				<MorphingDialogContent>
+				<MorphingDialogContent className="shadow-2xl">
 					<MorphingDialogTitle>
 						{status === "idle" && "Import statement"}
 						{status === "processing" && "Processing statement"}
