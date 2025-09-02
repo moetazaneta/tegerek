@@ -115,7 +115,7 @@ function ImportStatementButton() {
 				damping: 24,
 			}}
 		>
-			<Button variant="og" asChild>
+			<Button variant="og" asChild onClick={() => setStatus("idle")}>
 				<MorphingDialogTrigger>
 					<MorphingDialogTitle headless>
 						{status === "idle" && "Import"}

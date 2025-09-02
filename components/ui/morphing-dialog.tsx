@@ -89,6 +89,7 @@ export type MorphingDialogTriggerProps = {
 	className?: string
 	style?: React.CSSProperties
 	triggerRef?: React.RefObject<HTMLButtonElement>
+	onClick?: () => void
 }
 
 function MorphingDialogTrigger({
@@ -96,12 +97,14 @@ function MorphingDialogTrigger({
 	className,
 	style,
 	triggerRef,
+	onClick,
 }: MorphingDialogTriggerProps) {
 	const {setIsOpen, isOpen, uniqueId} = useMorphingDialog()
 
 	const handleClick = useCallback(() => {
 		setIsOpen(!isOpen)
-	}, [isOpen, setIsOpen])
+		onClick?.()
+	}, [isOpen, setIsOpen, onClick])
 
 	const handleKeyDown = useCallback(
 		(event: React.KeyboardEvent) => {
