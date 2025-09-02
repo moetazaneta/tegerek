@@ -15,7 +15,6 @@ import type * as http from "../http.js";
 import type * as migrations_changeTransactionCategoryFromNameToId from "../migrations/changeTransactionCategoryFromNameToId.js";
 import type * as migrations_changeTransactionTagToId from "../migrations/changeTransactionTagToId.js";
 import type * as migrations_migrations from "../migrations/migrations.js";
-import type * as myFunctions from "../myFunctions.js";
 import type * as statement from "../statement.js";
 import type * as tags from "../tags.js";
 import type * as transactions from "../transactions.js";
@@ -44,7 +43,6 @@ declare const fullApi: ApiFromModules<{
   "migrations/changeTransactionCategoryFromNameToId": typeof migrations_changeTransactionCategoryFromNameToId;
   "migrations/changeTransactionTagToId": typeof migrations_changeTransactionTagToId;
   "migrations/migrations": typeof migrations_migrations;
-  myFunctions: typeof myFunctions;
   statement: typeof statement;
   tags: typeof tags;
   transactions: typeof transactions;
