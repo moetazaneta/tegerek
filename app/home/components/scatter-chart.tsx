@@ -34,7 +34,7 @@ export function ScatterChartByDate({
 	}, [transactions])
 
 	return (
-		<ChartContainer config={chartConfig}>
+		<ChartContainer config={chartConfig} className="h-[900px] w-full">
 			<ScatterChart
 				margin={{
 					top: 20,
