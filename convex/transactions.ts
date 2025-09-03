@@ -14,6 +14,16 @@ export type TransactionWithCurrency = Omit<
 	tags: string[]
 }
 
+export const hasOne = protectedQuery({
+	handler: async ctx => {
+		const transactions = await ctx.db
+			.query("transactions")
+			.filter(q => q.eq(q.field("userId"), ctx.user._id))
+			.take(1)
+		return transactions.length === 1
+	},
+})
+
 export const getMine = protectedQuery({
 	args: {
 		categories: v.optional(v.array(v.id("categories"))),

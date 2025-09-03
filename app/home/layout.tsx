@@ -21,16 +21,24 @@ import {Dropzone} from "@/components/ui/shadcn-io/dropzone"
 import {api} from "@/convex/_generated/api"
 import {cn} from "@/lib/utils"
 
+function getRandomTitle() {
+	const titles = ["tegerek", "тегерек", "теgerек", "круглик", "cerclek"]
+	return titles[Math.floor(Math.random() * titles.length)]
+}
+
 export default function HomeLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
 	return (
-		<div className="flex flex-col items-center h-full w-full gap-8">
-			<header className="flex flex-row items-center justify-end w-full">
-				<ImportStatementButton />
-				<SignOutButton />
+		<div className="flex flex-col items-center h-full w-full">
+			<header className="p-8 flex flex-row items-center justify-between w-full">
+				<div className="text-xl font-bold">{getRandomTitle()}</div>
+				<div className="flex flex-row items-center">
+					<ImportStatementButton />
+					<SignOutButton />
+				</div>
 			</header>
 			{children}
 		</div>

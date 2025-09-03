@@ -4,7 +4,6 @@ import localFont from "next/font/local"
 
 import "./globals.css"
 import {ConvexAuthNextjsServerProvider} from "@convex-dev/auth/nextjs/server"
-import {SignOutButton} from "@/app/components/sign-out-button"
 import ConvexClientProvider from "@/components/ConvexClientProvider"
 import {Toaster} from "@/components/ui/sonner"
 
@@ -38,12 +37,7 @@ export default function RootLayout({
 					className={`${martianGrotesk.variable} ${geistMono.variable} antialiased h-full`}
 				>
 					<ConvexClientProvider>
-						<div className="flex flex-col items-center justify-center h-full w-full gap-8">
-							<header className="p-8 flex flex-row items-center justify-end w-full min-h-[101px]">
-								<SignOutButton />
-							</header>
-							{children}
-						</div>
+						{children}
 						<Toaster />
 					</ConvexClientProvider>
 				</body>
