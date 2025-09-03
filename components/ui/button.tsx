@@ -30,7 +30,8 @@ const buttonVariants = cva(
 			},
 			noScale: {
 				true: "",
-				false: "hover:scale-103 active:scale-97 transition-transform",
+				false:
+					"hover:scale-103 active:scale-97 hover:transition-transform active:transition-transform",
 			},
 		},
 		defaultVariants: {
