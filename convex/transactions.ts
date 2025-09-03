@@ -1,7 +1,8 @@
+import {type FilterBuilder, type NamedTableInfo, Query} from "convex/server"
 import {v} from "convex/values"
 import {filter} from "convex-helpers/server/filter"
 import {api} from "./_generated/api"
-import type {Doc} from "./_generated/dataModel"
+import type {DataModel, Doc} from "./_generated/dataModel"
 import {transactionFields} from "./schema"
 import {protectedMutation, protectedQuery} from "./utils/protected"
 
@@ -28,8 +29,24 @@ export const getMine = protectedQuery({
 	args: {
 		categories: v.optional(v.array(v.id("categories"))),
 		tags: v.optional(v.array(v.id("tags"))),
+		income: v.optional(v.boolean()),
+		expenses: v.optional(v.boolean()),
 	},
 	handler: async (ctx, args) => {
+		console.log("getMine", args)
+		function incomeExpensesFilter(
+			q: FilterBuilder<NamedTableInfo<DataModel, "transactions">>,
+		) {
+			const income = args.income ?? true
+			const expenses = args.expenses ?? true
+			if ((income && expenses) || (!income && !expenses)) {
+				return true
+			}
+			if (income) {
+				return q.gt(q.field("amount"), 0)
+			}
+			return q.lt(q.field("amount"), 0)
+		}
 		const transactionsPromise = filter(
 			ctx.db
 				.query("transactions")
@@ -39,6 +56,7 @@ export const getMine = protectedQuery({
 						? q.or(...args.categories.map(c => q.eq(q.field("category"), c)))
 						: true,
 				)
+				.filter(incomeExpensesFilter)
 				.order("desc"),
 			tran =>
 				args?.tags?.length === 0 ||

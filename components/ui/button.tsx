@@ -5,7 +5,7 @@ import type * as React from "react"
 import {cn} from "@/lib/utils"
 
 const buttonVariants = cva(
-	"cursor-pointer hover:scale-103 active:scale-97 transition-transform inline-flex items-center justify-center gap-2 whitespace-nowrap squircle-2xl text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg_no]:pointer-events-none [&_svg_no:not([class*='size-'])]:size-4 shrink-0 [&_svg_no]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+	"cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap squircle-2xl text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg_no]:pointer-events-none [&_svg_no:not([class*='size-'])]:size-4 shrink-0 [&_svg_no]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
 	{
 		variants: {
 			variant: {
@@ -28,6 +28,10 @@ const buttonVariants = cva(
 				huge: "h-24 squircle-full px-8 text-2xl",
 				icon: "size-9",
 			},
+			noScale: {
+				true: "",
+				false: "hover:scale-103 active:scale-97 transition-transform",
+			},
 		},
 		defaultVariants: {
 			variant: "default",
@@ -40,6 +44,7 @@ function Button({
 	className,
 	variant,
 	size,
+	noScale = false,
 	asChild = false,
 	...props
 }: React.ComponentProps<"button"> &
@@ -51,7 +56,7 @@ function Button({
 	return (
 		<Comp
 			data-slot="button"
-			className={cn(buttonVariants({variant, size, className}))}
+			className={cn(buttonVariants({variant, size, noScale, className}))}
 			{...props}
 		/>
 	)

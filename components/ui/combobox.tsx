@@ -52,6 +52,7 @@ export function Combobox<TValue extends string>({
 			<PopoverTrigger asChild>
 				{/** biome-ignore lint/a11y/useSemanticElements: nah */}
 				<Button
+					noScale
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
