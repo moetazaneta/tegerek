@@ -61,7 +61,7 @@ export const getMine = protectedQuery({
 			tran =>
 				args?.tags?.length === 0 ||
 				(args.tags?.some(tag => tran.tags?.includes(tag)) ?? true),
-		).take(20)
+		).collect()
 
 		const accountsPromise = ctx.db
 			.query("accounts")

@@ -25,22 +25,24 @@ export function ScatterChartByDate({
 	transactions: TransactionWithCurrency[]
 }) {
 	const data = useMemo(() => {
-		return transactions.map(t => ({
-			y: t.date,
-			x: t.time ? parseInt(t.time.split(":")[0]) : 1,
-			z: Math.round(Math.abs(t.amount)),
-			transaction: t,
-		}))
+		return transactions
+			.filter(t => t.amount < 0)
+			.map(t => ({
+				y: t.date,
+				x: t.time ? parseInt(t.time.split(":")[0]) : 1,
+				z: Math.round(Math.abs(t.amount)),
+				transaction: t,
+			}))
 	}, [transactions])
 
 	return (
-		<ChartContainer config={chartConfig} className="h-[900px] w-full">
+		<ChartContainer config={chartConfig} className="h-[1000px] w-full">
 			<ScatterChart
 				margin={{
 					top: 20,
 					right: 20,
 					bottom: 20,
-					left: 20,
+					left: 25,
 				}}
 			>
 				<CartesianGrid />
