@@ -50,7 +50,7 @@ export default function Home() {
 
 	return (
 		<AnimatePresence>
-			<div className="flex flex-col gap-6 items-center justify-center h-full">
+			<div className="flex flex-col gap-6 items-center justify-center h-full pb-32">
 				{status === "success" && (
 					<div className="border-4 border-emerald-100 bg-emerald-50 pl-20 pr-24 py-12 squircle-[64px]! flex flex-col gap-8 items-center min-w-[450px] text-green-950">
 						<div className="flex flex-row gap-8 items-center">

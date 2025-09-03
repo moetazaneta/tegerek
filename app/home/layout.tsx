@@ -1,11 +1,11 @@
 "use client"
 
-import {useAuthActions} from "@convex-dev/auth/react"
-import {useAction, useConvexAuth} from "convex/react"
+import {useAction} from "convex/react"
 import {type LucideIcon, UploadIcon} from "lucide-react"
 import {useRouter} from "next/navigation"
 import {useState, useTransition} from "react"
 import {toast} from "sonner"
+import {SignOutButton} from "@/app/components/sign-out-button"
 import {AnimatedShinyText} from "@/components/magicui/animated-shiny-text"
 import {Button} from "@/components/ui/button"
 import {
@@ -187,26 +187,5 @@ function ImportStatementButton() {
 				</MorphingDialogContent>
 			</MorphingDialogContainer>
 		</MorphingDialog>
-	)
-}
-
-function SignOutButton() {
-	const {isAuthenticated} = useConvexAuth()
-	const {signOut} = useAuthActions()
-	const router = useRouter()
-
-	if (!isAuthenticated) return null
-
-	return (
-		<Button
-			variant="og"
-			onClick={() =>
-				void signOut().then(() => {
-					router.push("/signin")
-				})
-			}
-		>
-			Sign out
-		</Button>
 	)
 }
