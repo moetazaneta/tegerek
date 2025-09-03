@@ -56,9 +56,8 @@ export function TreeChart({
 				options={options}
 				series={series}
 				type="treemap"
-				height={520}
-				width={500}
-				className="-mt-[20px]"
+				height={1000}
+				className="-mt-[20px] w-full h-full"
 			/>
 		</div>
 	)
