@@ -33,6 +33,7 @@ export const upload = protectedAction({
 					userId: ctx.user._id,
 					accountId,
 					date: t.date,
+					time: t.time ?? undefined,
 					amount: t.amount,
 					transactionId: t.id,
 					category: categories.find(c => c.name === t.category)!._id,

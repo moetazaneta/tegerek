@@ -12,6 +12,7 @@ const transactionSchema = z.object({
 	amount: z.number(),
 	balance: z.number().nullish().default(null),
 	date: z.string(),
+	time: z.string().nullish().default(null),
 	category: z.string(),
 	merchant: z.string(),
 	tags: z.array(z.string()).nullish().default([]),
@@ -92,6 +93,7 @@ Rules:
             "amount": number, positive for credit, negative for debit
             "balance": number or null, balance after transaction if available
             "date": string, ISO format YYYY-MM-DD
+						"time": string, ISO format HH:MM:SS
             "category": string, must be one of the categories defined above
             "merchant": string, normalized merchant/person name
             "tags": array of strings, must be chosen from the tags defined above
@@ -108,6 +110,7 @@ Parsing rules:
 - Bank name: if not explicitly present, infer from context (e.g. "MBANK" from description).
 - Transaction id = <Reference>.
 - Date = <ValueDate> in format DD.MM.YYYY → YYYY-MM-DD.
+- Time = Inlined in <Description> in format HH:MM:SS → HH:MM:SS.
 - Amount = Credit - Debit (credit positive, debit negative).
 - Balance = <Balance> if available, otherwise null.
 - Category: classify into one of the categories defined above. If unsure, use "other".
