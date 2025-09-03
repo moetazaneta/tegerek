@@ -3,9 +3,9 @@
 import {convexQuery} from "@convex-dev/react-query"
 import {useQuery} from "@tanstack/react-query"
 import {useState} from "react"
-import {Filters} from "@/app/home/filters"
-import {TransactionList} from "@/app/home/transaction-list"
-import {TreeChart} from "@/app/home/tree-chart"
+import {Filters} from "@/app/home/components/filters"
+import {TransactionList} from "@/app/home/components/transaction-list"
+import {TreeChart} from "@/app/home/components/tree-chart"
 import {api} from "@/convex/_generated/api"
 import {cn} from "@/lib/utils"
 
