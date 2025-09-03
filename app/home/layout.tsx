@@ -28,8 +28,8 @@ export default function HomeLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<div className="flex flex-col items-center h-full w-full">
-			<header className="p-8 flex flex-row items-center justify-between w-full">
+		<div className="px-8 pt-8 flex flex-col gap-8 items-center h-full w-full">
+			<header className="flex flex-row items-center justify-between w-full">
 				<Logo />
 				<div className="flex flex-row items-center">
 					<ImportStatementButton />

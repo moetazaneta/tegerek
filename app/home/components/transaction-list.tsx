@@ -5,13 +5,20 @@ import {cn} from "@/lib/utils"
 
 export function TransactionList({
 	transactions,
+	className,
 }: {
 	transactions: TransactionWithCurrency[]
+	className?: string
 }) {
 	const groups = Object.groupBy(transactions ?? [], t => t.date)
 
 	return (
-		<div className="flex flex-col max-w-[300px] w-[300px] shrink-0">
+		<div
+			className={cn(
+				"flex flex-col max-w-[300px] w-[300px] shrink-0 overflow-y-auto",
+				className,
+			)}
+		>
 			<AnimatePresence mode="popLayout">
 				{Object.entries(groups).map(([date, transactions], index) => (
 					<motion.div key={`wrap-${date}`}>
