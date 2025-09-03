@@ -5,6 +5,7 @@ import {type LucideIcon, UploadIcon} from "lucide-react"
 import {useRouter} from "next/navigation"
 import {useState, useTransition} from "react"
 import {toast} from "sonner"
+import {Logo} from "@/app/components/logo"
 import {SignOutButton} from "@/app/components/sign-out-button"
 import {AnimatedShinyText} from "@/components/magicui/animated-shiny-text"
 import {Button} from "@/components/ui/button"
@@ -21,11 +22,6 @@ import {Dropzone} from "@/components/ui/shadcn-io/dropzone"
 import {api} from "@/convex/_generated/api"
 import {cn} from "@/lib/utils"
 
-function getRandomTitle() {
-	const titles = ["tegerek", "тегерек", "теgerек", "круглик", "cerclek"]
-	return titles[Math.floor(Math.random() * titles.length)]
-}
-
 export default function HomeLayout({
 	children,
 }: Readonly<{
@@ -34,7 +30,7 @@ export default function HomeLayout({
 	return (
 		<div className="flex flex-col items-center h-full w-full">
 			<header className="p-8 flex flex-row items-center justify-between w-full">
-				<div className="text-xl font-bold">{getRandomTitle()}</div>
+				<Logo />
 				<div className="flex flex-row items-center">
 					<ImportStatementButton />
 					<SignOutButton />
