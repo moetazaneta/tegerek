@@ -25,7 +25,7 @@ export default function Home() {
 				className={cn(isFetching && "opacity-50")}
 				transactions={transactions ?? []}
 			/>
-			<Tabs defaultValue="TreeChart">
+			<Tabs defaultValue="ScatterChart">
 				<TabsList>
 					<TabsTrigger value="TreeChart">expenses tree</TabsTrigger>
 					<TabsTrigger value="ScatterChart">time of day</TabsTrigger>
@@ -35,7 +35,7 @@ export default function Home() {
 						<TreeChart transactions={transactions ?? []} />
 					</TabsContent>
 					<TabsContent value="ScatterChart">
-						<ScatterChartByDate />
+						<ScatterChartByDate transactions={transactions ?? []} />
 					</TabsContent>
 				</div>
 			</Tabs>

@@ -243,7 +243,10 @@
 }
 
 @utility squircle-* {
-	--squircle-multiplier: 1.75;
+	--squircle-multiplier: 1;
+	@support (border-radius: superellipse(1.5)) {
+		--squircle-multiplier: 1.75;
+	}
 	border-radius: calc(var(--squircle-multiplier) * --value(--radius-*));
 	border-radius: calc(var(--squircle-multiplier) * --value([*]));
 	corner-shape: squircle;
