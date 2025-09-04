@@ -51,13 +51,13 @@ export function TreeChart({
 	}
 
 	return (
-		<div className="relative">
+		<div className="relative h-full">
 			<ApexChart
 				options={options}
 				series={series}
 				type="treemap"
-				height={1000}
-				className="-mt-[20px] w-full h-full"
+				height="100%"
+				className="relative -top-[20px] w-full h-full"
 			/>
 		</div>
 	)

@@ -28,7 +28,7 @@ export function ScatterChartByDate({
 		return transactions
 			.filter(t => t.amount < 0)
 			.map(t => ({
-				y: t.date,
+				y: t.date.slice(5),
 				x: t.time ? parseInt(t.time.split(":")[0]) : 1,
 				z: Math.round(Math.abs(t.amount)),
 				transaction: t,
@@ -36,15 +36,8 @@ export function ScatterChartByDate({
 	}, [transactions])
 
 	return (
-		<ChartContainer config={chartConfig} className="h-[1000px] w-full">
-			<ScatterChart
-				margin={{
-					top: 20,
-					right: 20,
-					bottom: 20,
-					left: 25,
-				}}
-			>
+		<ChartContainer config={chartConfig} className="h-full w-full">
+			<ScatterChart>
 				<CartesianGrid />
 				<XAxis
 					allowDuplicatedCategory={false}

@@ -25,16 +25,19 @@ export default function Home() {
 				className={cn(isFetching && "opacity-50")}
 				transactions={transactions ?? []}
 			/>
-			<Tabs defaultValue="ScatterChart" className="items-center min-w-0">
+			<Tabs
+				defaultValue="ScatterChart"
+				className="items-center min-w-0 pb-2 box-content"
+			>
 				<TabsList>
 					<TabsTrigger value="TreeChart">distribution</TabsTrigger>
 					<TabsTrigger value="ScatterChart">timing</TabsTrigger>
 				</TabsList>
-				<div className={cn("w-full", isFetching && "opacity-50")}>
-					<TabsContent value="TreeChart">
+				<div className={cn("w-full h-full", isFetching && "opacity-50")}>
+					<TabsContent value="TreeChart" className="h-full">
 						<TreeChart transactions={transactions ?? []} />
 					</TabsContent>
-					<TabsContent value="ScatterChart">
+					<TabsContent value="ScatterChart" className="h-full">
 						<ScatterChartByDate transactions={transactions ?? []} />
 					</TabsContent>
 				</div>
