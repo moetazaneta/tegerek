@@ -19,7 +19,7 @@ import type {TransactionWithCurrency} from "@/convex/transactions"
 
 const chartConfig = {} satisfies ChartConfig
 
-export function ScatterChartByDate({
+export function TimingByDayHourScatterChart({
 	transactions,
 }: {
 	transactions: TransactionWithCurrency[]

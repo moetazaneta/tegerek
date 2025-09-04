@@ -6,6 +6,7 @@ export function TransactionDateLabel({
 	time,
 	showTime = false,
 	className,
+	...props
 }: {
 	date: string
 	time?: string
@@ -14,6 +15,7 @@ export function TransactionDateLabel({
 } & MotionProps) {
 	return (
 		<motion.div
+			{...props}
 			className={cn(
 				"inline-block text-muted-foreground text-sm font-semibold ",
 				className,

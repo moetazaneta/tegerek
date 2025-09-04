@@ -3,7 +3,7 @@ import ApexChart from "react-apexcharts"
 import type {TransactionWithCurrency} from "@/convex/transactions"
 import {formatCurrency} from "@/lib/currency"
 
-export function TreeChart({
+export function ExpensesDistributionTreeChart({
 	transactions,
 }: {
 	transactions: TransactionWithCurrency[]
